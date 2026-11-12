@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}{{ titulo_pagina }}{% endblock %}
+
+{% block content %}
+    <h2>{{ titulo_pagina }}</h2>
+    <p>Mostrando solo productos con stock disponible, ordenados por precio.</p>
+
+    <div class="grid">
+        <!-- Iteramos sobre 'productos' (definido en context_object_name) -->
+        {% for producto in productos %}
+            <div class="card">
+                <!-- Filtro 'title' (capitaliza) -->
+                <h3>{{ producto.nombre|title }}</h3>
+                
+                <!-- Filtro 'upper' para categoría -->
+                <span class="badge">{{ producto.categoria|upper }}</span>
+                
+                <!-- Filtro 'floatformat:2' para asegurar 2 decimales -->
+                <p class="price">S/ {{ producto.precio|floatformat:2 }}</p>
+                
+                <!-- Condicional para el stock -->
+                <div class="stock-status">
+                    {% if producto.stock == 0 %}
+                        <span class="stock-out">❌ Agotado</span>
+                    {% elif producto.stock < 5 %}
+                        <span class="stock-low">⚠️ Últimas {{ producto.stock }} unidades</span>
+                    {% else %}
+                        <span class="stock-ok">✅ Disponible ({{ producto.stock }} en stock)</span>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <!-- Se muestra si el QuerySet está vacío -->
+            <div class="empty-state" style="grid-column: 1 / -1;">
+                <h3>No hay productos disponibles</h3>
+                <p>Agrega productos desde el panel de administración.</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

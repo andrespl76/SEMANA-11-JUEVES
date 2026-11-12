@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio - TechCatalog UNCP{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <h1>{{ titulo }}</h1>
+    <p>{{ mensaje }}</p>
+    
+    <div class="badge" style="margin-top: 1rem;">
+        Tenemos {{ total_productos }} productos registrados en el sistema
+    </div>
+    
+    <br>
+    <a href="{% url 'catalogo:catalogo' %}" class="btn">Ver Catálogo de Productos</a>
+</div>
+{% endblock %}
